@@ -12,10 +12,11 @@ import java.net.URL;
 public class Weather {
 
     public static final int TIMEOUT_MILLIS = 8000;
+    public static final String APIKEY = "6ec6a78c57e809cb5bb79c2f2b9c5bab";
 
     public String getWeather() {
-        String httpUrl = "http://apis.baidu.com/apistore/weatherservice/citylist";
-        String httpArg = "cityname=杭州";
+        String httpUrl = "http://apis.baidu.com/apistore/weatherservice/recentweathers";
+        String httpArg = "cityid=101210101";
         String jsonResult = request(httpUrl, httpArg);
         System.out.println(jsonResult);
         return jsonResult;
@@ -34,7 +35,7 @@ public class Weather {
             connection.setRequestMethod("GET");
             connection.setConnectTimeout(TIMEOUT_MILLIS);
             // 填入apikey到HTTP header
-            connection.setRequestProperty("apikey", "021d4fde5035ef8c0f3345a113a1e799");
+            connection.setRequestProperty("apikey", APIKEY);
             connection.connect();
             InputStream is = connection.getInputStream();
             reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
