@@ -3,16 +3,12 @@ package com.example.falling.weatherapp;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
 import com.example.falling.weatherapp.network.WeatherThread;
 import com.example.falling.weatherapp.provider.URIList;
-
-import java.lang.ref.WeakReference;
 
 public class MainActivity extends AppCompatActivity {
     private TextView mTextView;
@@ -21,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mTextView = (TextView) findViewById(R.id.text);
+        mTextView = (TextView) findViewById(R.id.View_weather);
         new WeatherThread(this).start();
 
 
