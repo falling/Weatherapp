@@ -13,13 +13,11 @@ public class Weather {
 
     public static final int TIMEOUT_MILLIS = 8000;
     public static final String APIKEY = "6ec6a78c57e809cb5bb79c2f2b9c5bab";
+    public static final String HTTPURL = "http://apis.baidu.com/apistore/weatherservice/recentweathers";
+    public static final String HTTPARG = "cityid=101210101";
 
     public String getWeather() {
-        String httpUrl = "http://apis.baidu.com/apistore/weatherservice/recentweathers";
-        String httpArg = "cityid=101210101";
-        String jsonResult = request(httpUrl, httpArg);
-        System.out.println(jsonResult);
-        return jsonResult;
+        return request(HTTPURL, HTTPARG);
     }
 
     public static String request(String httpUrl, String httpArg) {

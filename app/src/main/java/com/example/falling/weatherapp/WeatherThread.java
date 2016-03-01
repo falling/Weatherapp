@@ -1,5 +1,7 @@
 package com.example.falling.weatherapp;
 
+import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -9,15 +11,29 @@ import com.google.gson.Gson;
  */
 public class WeatherThread extends Thread {
 
+    public static final String SUCCESS = "success";
     private Weather mWeather;
+    private Context mContext;
+    private Gson mGson;
+    private WeatherDatabaseUtil mWeatherDatabaseUtil;
+    public WeatherThread(Context context){
+        this.mContext = context;
 
+        mGson = new Gson();
+        mWeather = new Weather();
+        mWeatherDatabaseUtil = new WeatherDatabaseUtil(context);
+    }
 
     @Override
     public void run() {
-        mWeather = new Weather();
-        Gson gson = new Gson();
-        WeatherBean weatherBean = gson.fromJson(mWeather.getWeather(), WeatherBean.class);
-        System.out.println();
+        WeatherBean weatherBean = mGson.fromJson(mWeather.getWeather(), WeatherBean.class);
+
+        if(TextUtils.equals(weatherBean.getErrMsg(), SUCCESS)){
+            //insert into database;
+            mWeatherDatabaseUtil.insert(weatherBean);
+
+        }
+
 
     }
 

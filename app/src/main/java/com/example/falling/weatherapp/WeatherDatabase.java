@@ -20,7 +20,7 @@ public class WeatherDatabase extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table weatherData (id primary key ON CONFLICT REPLACE,city,date,week,curTemp,aqi,fengXiang,fengLi,highTemp,lowTemp,type)");
+        db.execSQL("create table weatherData (id PRIMARY KEY ON CONFLICT REPLACE,city,date,week,curTemp,aqi,fengXiang,fengLi,highTemp,lowTemp,type)");
     }
 
     @Override
