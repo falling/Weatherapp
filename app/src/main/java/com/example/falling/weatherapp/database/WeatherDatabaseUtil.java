@@ -1,6 +1,7 @@
 package com.example.falling.weatherapp.database;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.falling.weatherapp.bean.WeatherBean;
@@ -19,5 +20,11 @@ public class WeatherDatabaseUtil {
         WeatherDatabase weatherDatabase = new WeatherDatabase(mContext);
         SQLiteDatabase db = weatherDatabase.getWritableDatabase();
         db.execSQL(weatherBean.getInsertSql());
+    }
+
+    public Cursor queryAll(){
+        WeatherDatabase weatherDatabase = new WeatherDatabase(mContext);
+        SQLiteDatabase db = weatherDatabase.getReadableDatabase();
+        return db.rawQuery("select * from "+ WeatherDatabase.TABLE_NAME_WEATHER,null);
     }
 }
