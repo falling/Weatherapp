@@ -17,6 +17,7 @@ public class WeatherThread extends Thread {
         mWeather = new Weather();
         Gson gson = new Gson();
         WeatherBean weatherBean = gson.fromJson(mWeather.getWeather(), WeatherBean.class);
+        System.out.println();
 
     }
 
