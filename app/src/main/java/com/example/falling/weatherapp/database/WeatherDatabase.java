@@ -1,4 +1,4 @@
-package com.example.falling.weatherapp;
+package com.example.falling.weatherapp.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

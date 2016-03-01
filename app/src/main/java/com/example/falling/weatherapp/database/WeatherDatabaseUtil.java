@@ -1,7 +1,9 @@
-package com.example.falling.weatherapp;
+package com.example.falling.weatherapp.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+
+import com.example.falling.weatherapp.bean.WeatherBean;
 
 /**
  * Created by falling on 16/3/1.

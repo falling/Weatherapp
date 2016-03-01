@@ -2,8 +2,9 @@ package com.example.falling.weatherapp;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 
+import com.example.falling.weatherapp.bean.WeatherBean;
+import com.example.falling.weatherapp.database.WeatherDatabaseUtil;
 import com.google.gson.Gson;
 
 /**
