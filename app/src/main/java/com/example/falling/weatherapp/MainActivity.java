@@ -19,16 +19,17 @@ public class MainActivity extends AppCompatActivity {
     private TextView mTextView;
     private Button mButton;
     private WeatherThread mWeatherThread;
-    private showTask mShowTask;
+    private showTask mShowTask =  new showTask();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mShowTask.execute();
 
         //开启获取天气信息的线程
         mWeatherThread = new WeatherThread(this);
-        mShowTask = new showTask();
+
 
         mWeatherThread.start();
 
@@ -48,10 +49,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //用异步类获取刷新信息
-
-        mShowTask.execute();
-
     }
 
     public showTask getShowTask() {
@@ -60,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
     public MainActivity reSetShowTask() {
         mShowTask = new showTask();
-        return this;
+        return this;//方便链式操作
     }
 
     public class showTask extends AsyncTask<Void,Void,String>{
