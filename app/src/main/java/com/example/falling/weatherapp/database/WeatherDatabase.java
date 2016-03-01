@@ -12,6 +12,7 @@ public class WeatherDatabase extends SQLiteOpenHelper {
 
     public static final String WEATHER = "Weather";
     public static final int VERSION = 1;
+    public static final String TABLE_NAME_WEATHER = "weatherData";
 
     public WeatherDatabase(Context context) {
         super(context, WEATHER, null, VERSION);
@@ -20,7 +21,7 @@ public class WeatherDatabase extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table weatherData (id PRIMARY KEY ON CONFLICT REPLACE,city,date,week,curTemp,aqi,fengXiang,fengLi,highTemp,lowTemp,type)");
+        db.execSQL("create table " + TABLE_NAME_WEATHER + " (id PRIMARY KEY ON CONFLICT REPLACE,city,date,week,curTemp,aqi,fengXiang,fengLi,highTemp,lowTemp,type)");
     }
 
     @Override

@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.example.falling.weatherapp.network.WeatherThread;
+
 import java.lang.ref.WeakReference;
 
 public class MainActivity extends AppCompatActivity {

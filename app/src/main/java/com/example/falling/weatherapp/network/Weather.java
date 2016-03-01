@@ -1,4 +1,4 @@
-package com.example.falling.weatherapp;
+package com.example.falling.weatherapp.network;
 
 import java.io.BufferedReader;
 import java.io.InputStream;

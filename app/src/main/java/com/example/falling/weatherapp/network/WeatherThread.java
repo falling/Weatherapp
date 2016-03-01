@@ -1,10 +1,11 @@
-package com.example.falling.weatherapp;
+package com.example.falling.weatherapp.network;
 
 import android.content.Context;
 import android.text.TextUtils;
 
 import com.example.falling.weatherapp.bean.WeatherBean;
 import com.example.falling.weatherapp.database.WeatherDatabaseUtil;
+import com.example.falling.weatherapp.network.Weather;
 import com.google.gson.Gson;
 
 /**
