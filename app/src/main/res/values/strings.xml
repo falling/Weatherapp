@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Weather app</string>
+    <string name="mainActivity_button_name">刷新天气</string>
 </resources>
