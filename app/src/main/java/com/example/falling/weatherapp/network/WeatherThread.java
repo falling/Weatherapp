@@ -39,7 +39,7 @@ public class WeatherThread extends Thread {
     public void run() {
         while (true) {
 
-            if (Internet.isNetworkConnected(mActivity)) {
+            if (InternetUtil.isNetworkConnected(mActivity)) {
                 mWeatherBean = mGson.fromJson(mWeatherRequest.getWeather(), WeatherBean.class);
                 if (mWeatherBean != null && TextUtils.equals(mWeatherBean.getErrMsg(), SUCCESS)) {
                     //获取数据成功

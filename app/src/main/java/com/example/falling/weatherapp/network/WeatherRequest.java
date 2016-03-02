@@ -8,6 +8,7 @@ import java.net.URL;
 
 /**
  * Created by falling on 16/2/29.
+ * 请求获取天气信息的类
  */
 public class WeatherRequest {
 

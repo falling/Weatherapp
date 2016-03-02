@@ -16,11 +16,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.falling.weatherapp.bean.WeatherViewBean;
-import com.example.falling.weatherapp.network.Internet;
+import com.example.falling.weatherapp.network.InternetUtil;
 import com.example.falling.weatherapp.network.WeatherThread;
 import com.example.falling.weatherapp.provider.URIList;
-
-import org.w3c.dom.Text;
 
 import java.lang.ref.WeakReference;
 
@@ -55,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (v.getId() == R.id.getWeather_Button) {
                     //如果有网络 则立即获取数据
-                    if (Internet.isNetworkConnected(v.getContext())) {
+                    if (InternetUtil.isNetworkConnected(v.getContext())) {
                         synchronized (mWeatherThread) {
                             mWeatherThread.notifyAll();
                         }
@@ -142,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
         public static WeakReference<MainActivity> sMainActivityWeakReference;
 
         public MessageHandler(MainActivity mainActivity) {
-            sMainActivityWeakReference = new WeakReference<MainActivity>(mainActivity);
+            sMainActivityWeakReference = new WeakReference<>(mainActivity);
         }
 
         @Override

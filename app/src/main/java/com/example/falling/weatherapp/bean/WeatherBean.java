@@ -5,6 +5,7 @@ import java.util.List;
 
 /**
  * Created by falling on 16/2/29.
+ * 这个是json对应的类，用于sgon解析以及存储数据
  */
 public class WeatherBean {
     private String errMsg;

@@ -6,8 +6,9 @@ import android.net.NetworkInfo;
 
 /**
  * Created by falling on 2016/3/2.
+ * 判断网络是否能连通的工具类
  */
-public class Internet {
+public class InternetUtil {
     public static boolean isNetworkConnected(Context context) {
         if (context != null) {
             ConnectivityManager mConnectivityManager = (ConnectivityManager) context

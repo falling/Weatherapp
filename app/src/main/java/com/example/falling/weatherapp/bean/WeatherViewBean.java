@@ -5,7 +5,9 @@ import android.text.TextUtils;
 
 /**
  * Created by falling on 16/3/2.
+ * 这个是数据库存储里对应的bean。用于方便显示数据。
  */
+
 public class WeatherViewBean {
     private String date;
     private String week;
@@ -17,8 +19,6 @@ public class WeatherViewBean {
     private String lowTemp;
     private String type;
 
-    public WeatherViewBean() {
-    }
 
     public WeatherViewBean(Cursor cursor) {
         this.setDate(cursor.getString(2));
