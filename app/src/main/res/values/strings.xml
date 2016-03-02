@@ -3,4 +3,6 @@
     <string name="mainActivity_button_name">刷新天气</string>
     <string name="error_get_info_failed">获取数据失败</string>
     <string name="error_network_connect">网络连接失败</string>
+    <string name="succes_update">更新成功</string>
+    <string name="never_get">未获取</string>
 </resources>

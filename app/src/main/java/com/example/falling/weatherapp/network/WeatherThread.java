@@ -1,5 +1,6 @@
 package com.example.falling.weatherapp.network;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Message;
 import android.text.TextUtils;
@@ -12,12 +13,16 @@ import com.example.falling.weatherapp.bean.WeatherBean;
 import com.example.falling.weatherapp.database.WeatherDatabaseUtil;
 import com.google.gson.Gson;
 
+import java.util.Calendar;
+
 /**
  * Created by falling on 16/2/29.
  */
 public class WeatherThread extends Thread {
 
     public static final String SUCCESS = "success";
+    public static final int MODE_PRIVATE = 0;
+    public static final String LAST_UPDATE_TIME = "last_update_time";
     private Weather mWeather;
     private Gson mGson;
     private WeatherDatabaseUtil mWeatherDatabaseUtil;
@@ -35,19 +40,23 @@ public class WeatherThread extends Thread {
     public void run() {
         while (true) {
 
-            if(Internet.isNetworkConnected(mActivity)) {
+            if (Internet.isNetworkConnected(mActivity)) {
                 mWeatherBean = mGson.fromJson(mWeather.getWeather(), WeatherBean.class);
                 if (mWeatherBean != null && TextUtils.equals(mWeatherBean.getErrMsg(), SUCCESS)) {
                     //获取数据成功
                     //insert into database;
                     Log.i("Tag", "获取一次");
                     mWeatherDatabaseUtil.insert(mWeatherBean);
+                    //写入更新的时间到SharedPreference
+                    insertTimeIntoSharedPreference();
+
                     mActivity.getShowTask().cancel(true);
                     mActivity.reSetShowTask().getShowTask().execute();
-                }else{
+                    sendMessageToMainActivity(mActivity.getString(R.string.succes_update));
+                } else {
                     sendMessageToMainActivity(mActivity.getString(R.string.error_get_info_failed));
                 }
-            }else{
+            } else {
                 sendMessageToMainActivity(mActivity.getString(R.string.error_network_connect));
             }
 
@@ -70,9 +79,26 @@ public class WeatherThread extends Thread {
         Bundle bundle = new Bundle();
         bundle.putString(MainActivity.MESSAGE, str);
         Message msg = mActivity.getMessageHandler().obtainMessage();
-        msg.what =  MainActivity.NET_THREAD_MESSAGE;
+        msg.what = MainActivity.NET_THREAD_MESSAGE;
         msg.setData(bundle);
         mActivity.getMessageHandler().sendMessage(msg);
+    }
+
+    private void insertTimeIntoSharedPreference() {
+        SharedPreferences sharedPreferences = mActivity.getSharedPreferences("time", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int date = c.get(Calendar.DATE);
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int minute = c.get(Calendar.MINUTE);
+        int second = c.get(Calendar.SECOND);
+        String update_time = year + "/" + (month + 1) + "/" + date + "  " +
+                hour + ":" + minute + ":" + second;
+        editor.putString(LAST_UPDATE_TIME, update_time);
+        editor.commit();
     }
 
 }
