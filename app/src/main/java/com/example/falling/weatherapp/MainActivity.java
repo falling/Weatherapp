@@ -15,9 +15,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.falling.weatherapp.bean.WeatherViewBean;
 import com.example.falling.weatherapp.network.Internet;
 import com.example.falling.weatherapp.network.WeatherThread;
 import com.example.falling.weatherapp.provider.URIList;
+
+import org.w3c.dom.Text;
 
 import java.lang.ref.WeakReference;
 
@@ -25,7 +28,11 @@ public class MainActivity extends AppCompatActivity {
     public static final int NET_THREAD_MESSAGE = 1000;
     public static final String MESSAGE = "message";
     private final WeatherThread mWeatherThread = new WeatherThread(this);
-    private TextView mWeather;
+    private TextView mTodayWeather;
+    private TextView mF1Weather;
+    private TextView mF2Weather;
+    private TextView mF3Weather;
+    private TextView mF4Weather;
     private TextView mUpdateTime;
     private Button mButton;
     private showTask mShowTask = new showTask();
@@ -40,9 +47,9 @@ public class MainActivity extends AppCompatActivity {
         //开启获取天气信息的线程
         mWeatherThread.start();
         mMessageHandler = new MessageHandler(this);
-        mWeather = (TextView) findViewById(R.id.View_weather);
-        mUpdateTime = (TextView) findViewById(R.id.update_time);
-        mButton = (Button) findViewById(R.id.getWeather_Button);
+
+        findId();
+
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
                         synchronized (mWeatherThread) {
                             mWeatherThread.notifyAll();
                         }
-                        Toast.makeText(v.getContext(),R.string.getting_update,Toast.LENGTH_SHORT).show();
+                        Toast.makeText(v.getContext(), R.string.getting_update, Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(v.getContext(), getString(R.string.error_network_connect), Toast.LENGTH_SHORT).show();
                     }
@@ -60,6 +67,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void findId() {
+        mTodayWeather = (TextView) findViewById(R.id.View_Today_weather);
+        mF1Weather = (TextView) findViewById(R.id.View_F1_weather);
+        mF2Weather = (TextView) findViewById(R.id.View_F2_weather);
+        mF3Weather = (TextView) findViewById(R.id.View_F3_weather);
+        mF4Weather = (TextView) findViewById(R.id.View_F4_weather);
+        mUpdateTime = (TextView) findViewById(R.id.update_time);
+        mButton = (Button) findViewById(R.id.getWeather_Button);
     }
 
     public MessageHandler getMessageHandler() {
@@ -78,28 +95,28 @@ public class MainActivity extends AppCompatActivity {
     public class showTask extends AsyncTask<Void, Void, String[]> {
 
         /**
-         *
          * @param params
-         * @return result[0] 存的是读取到的天气信息。result[1] 存的是最近更新时间信息
+         * @return result[0] 存的是当天的天气信息。
+         * result[1~4]存的是未来几天的信息
+         * result[5] 存的是最近更新时间信息
          */
         @Override
         protected String[] doInBackground(Void... params) {
             ContentResolver contentResolver = getContentResolver();
             Cursor cursor = contentResolver.query(Uri.parse(URIList.WEATHER_URI), null, null, null, null, null);
-            String[] results = new String[2];
-            results[0] = "";
+            String[] results = new String[6];
+            int i = 0;
             while (cursor != null && cursor.moveToNext()) {
-                for (int i = 2; i < 11; i++) {
-                    results[0] += cursor.getString(i) + " ";
-                }
-                results[0] += "\n";
+                WeatherViewBean weatherViewBean = new WeatherViewBean(cursor);
+                results[i] = weatherViewBean.toString();
+                i++;
             }
-            if(cursor!=null){
+            if (cursor != null) {
                 cursor.close();
             }
 
             SharedPreferences sharedPreferences = getSharedPreferences("time", MODE_PRIVATE);
-            results[1] = "更新于 "+sharedPreferences.getString(WeatherThread.LAST_UPDATE_TIME, getString(R.string.never_get));
+            results[5] = "更新于 " + sharedPreferences.getString(WeatherThread.LAST_UPDATE_TIME, getString(R.string.never_get));
 
             return results;
         }
@@ -109,8 +126,12 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(s);
             Log.i("Tag", "显示一次");
 
-            mWeather.setText(s[0]);
-            mUpdateTime.setText(s[1]);
+            mTodayWeather.setText(s[0]);
+            mF1Weather.setText(s[1]);
+            mF2Weather.setText(s[2]);
+            mF3Weather.setText(s[3]);
+            mF4Weather.setText(s[4]);
+            mUpdateTime.setText(s[5]);
 
         }
 

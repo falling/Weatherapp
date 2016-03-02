@@ -14,7 +14,7 @@ public class WeatherRequest {
     public static final int TIMEOUT_MILLIS = 8000;
     public static final String APIKEY = "6ec6a78c57e809cb5bb79c2f2b9c5bab";
     public static final String HTTPURL = "http://apis.baidu.com/apistore/weatherservice/recentweathers";
-    public static final String HTTPARG = "cityid=101210101";
+    public static final String HTTPARG = "cityid=101210101";//杭州的城市ID，通过查询API文档得到
 
     public String getWeather() {
         return request(HTTPURL, HTTPARG);
