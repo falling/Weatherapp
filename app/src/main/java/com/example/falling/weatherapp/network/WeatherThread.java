@@ -1,9 +1,13 @@
 package com.example.falling.weatherapp.network;
 
+import android.os.Bundle;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.falling.weatherapp.MainActivity;
+import com.example.falling.weatherapp.R;
 import com.example.falling.weatherapp.bean.WeatherBean;
 import com.example.falling.weatherapp.database.WeatherDatabaseUtil;
 import com.google.gson.Gson;
@@ -18,6 +22,7 @@ public class WeatherThread extends Thread {
     private Gson mGson;
     private WeatherDatabaseUtil mWeatherDatabaseUtil;
     private MainActivity mActivity;
+    private WeatherBean mWeatherBean;
 
     public WeatherThread(MainActivity activity) {
         this.mActivity = activity;
@@ -29,16 +34,21 @@ public class WeatherThread extends Thread {
     @Override
     public void run() {
         while (true) {
-            WeatherBean weatherBean = mGson.fromJson(mWeather.getWeather(), WeatherBean.class);
-            Log.i("Tag", "获取一次");
 
-            if (weatherBean!=null && TextUtils.equals(weatherBean.getErrMsg(), SUCCESS)) {
-                //获取数据成功
-                //insert into database;
-                mWeatherDatabaseUtil.insert(weatherBean);
-                mActivity.getShowTask().cancel(true);
-                mActivity.reSetShowTask().getShowTask().execute();
-
+            if(Internet.isNetworkConnected(mActivity)) {
+                mWeatherBean = mGson.fromJson(mWeather.getWeather(), WeatherBean.class);
+                if (mWeatherBean != null && TextUtils.equals(mWeatherBean.getErrMsg(), SUCCESS)) {
+                    //获取数据成功
+                    //insert into database;
+                    Log.i("Tag", "获取一次");
+                    mWeatherDatabaseUtil.insert(mWeatherBean);
+                    mActivity.getShowTask().cancel(true);
+                    mActivity.reSetShowTask().getShowTask().execute();
+                }else{
+                    sendMessageToMainActivity(mActivity.getString(R.string.error_get_info_failed));
+                }
+            }else{
+                sendMessageToMainActivity(mActivity.getString(R.string.error_network_connect));
             }
 
             synchronized (this) {
@@ -54,6 +64,15 @@ public class WeatherThread extends Thread {
         }
 
 
+    }
+
+    private void sendMessageToMainActivity(String str) {
+        Bundle bundle = new Bundle();
+        bundle.putString(MainActivity.MESSAGE, str);
+        Message msg = mActivity.getMessageHandler().obtainMessage();
+        msg.what =  MainActivity.NET_THREAD_MESSAGE;
+        msg.setData(bundle);
+        mActivity.getMessageHandler().sendMessage(msg);
     }
 
 }
