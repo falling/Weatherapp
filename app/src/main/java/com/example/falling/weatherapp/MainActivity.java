@@ -88,6 +88,9 @@ public class MainActivity extends AppCompatActivity {
                 }
                 results[0] += "\n";
             }
+            if(cursor!=null){
+                cursor.close();
+            }
 
             SharedPreferences sharedPreferences = getSharedPreferences("time", MODE_PRIVATE);
             results[1] = "更新于 "+sharedPreferences.getString(WeatherThread.LAST_UPDATE_TIME, getString(R.string.never_get));
