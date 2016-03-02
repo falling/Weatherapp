@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.falling.weatherapp.MainActivity;
 import com.example.falling.weatherapp.R;
@@ -23,7 +22,7 @@ public class WeatherThread extends Thread {
     public static final String SUCCESS = "success";
     public static final int MODE_PRIVATE = 0;
     public static final String LAST_UPDATE_TIME = "last_update_time";
-    private Weather mWeather;
+    private WeatherRequest mWeatherRequest;
     private Gson mGson;
     private WeatherDatabaseUtil mWeatherDatabaseUtil;
     private MainActivity mActivity;
@@ -32,7 +31,7 @@ public class WeatherThread extends Thread {
     public WeatherThread(MainActivity activity) {
         this.mActivity = activity;
         mGson = new Gson();
-        mWeather = new Weather();
+        mWeatherRequest = new WeatherRequest();
         mWeatherDatabaseUtil = new WeatherDatabaseUtil(activity);
     }
 
@@ -41,7 +40,7 @@ public class WeatherThread extends Thread {
         while (true) {
 
             if (Internet.isNetworkConnected(mActivity)) {
-                mWeatherBean = mGson.fromJson(mWeather.getWeather(), WeatherBean.class);
+                mWeatherBean = mGson.fromJson(mWeatherRequest.getWeather(), WeatherBean.class);
                 if (mWeatherBean != null && TextUtils.equals(mWeatherBean.getErrMsg(), SUCCESS)) {
                     //获取数据成功
                     //insert into database;
@@ -52,7 +51,6 @@ public class WeatherThread extends Thread {
 
                     mActivity.getShowTask().cancel(true);
                     mActivity.reSetShowTask().getShowTask().execute();
-                    sendMessageToMainActivity(mActivity.getString(R.string.succes_update));
                 } else {
                     sendMessageToMainActivity(mActivity.getString(R.string.error_get_info_failed));
                 }

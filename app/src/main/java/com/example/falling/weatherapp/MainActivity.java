@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
                         synchronized (mWeatherThread) {
                             mWeatherThread.notifyAll();
                         }
+                        Toast.makeText(v.getContext(),R.string.getting_update,Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(v.getContext(), getString(R.string.error_network_connect), Toast.LENGTH_SHORT).show();
                     }
@@ -76,6 +77,11 @@ public class MainActivity extends AppCompatActivity {
 
     public class showTask extends AsyncTask<Void, Void, String[]> {
 
+        /**
+         *
+         * @param params
+         * @return result[0] 存的是读取到的天气信息。result[1] 存的是最近更新时间信息
+         */
         @Override
         protected String[] doInBackground(Void... params) {
             ContentResolver contentResolver = getContentResolver();

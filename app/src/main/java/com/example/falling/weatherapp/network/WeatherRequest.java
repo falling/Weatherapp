@@ -9,7 +9,7 @@ import java.net.URL;
 /**
  * Created by falling on 16/2/29.
  */
-public class Weather {
+public class WeatherRequest {
 
     public static final int TIMEOUT_MILLIS = 8000;
     public static final String APIKEY = "6ec6a78c57e809cb5bb79c2f2b9c5bab";
