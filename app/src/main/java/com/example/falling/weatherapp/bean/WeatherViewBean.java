@@ -111,16 +111,15 @@ public class WeatherViewBean {
         //说明是未来几天的预报
         if (TextUtils.equals(curTemp, "")) {
             result = week + "\n" +
-                    type + "\n" +
-                    lowTemp + " ~ " + highTemp + "\n" +
-                    fengXiang + " " + fengLi + "\n";
+                    " " + type + "\n" +
+                    " " + lowTemp +" ~ " + highTemp + "\n" +
+                    " " + fengXiang + " " + fengLi + "\n";
         } else {
             result = date + " " + week + "\n" +
-                    type + "\n" +
-                    "当前温度:" + curTemp + "\n" +
-                    lowTemp + " ~ " + highTemp + "\n" +
-                    "PM2.5：" + aqi + "\n" +
-                    fengXiang + " " + fengLi + "\n";
+                    " " + type + "\n" +
+                    " 当前温度:" + curTemp + "\n" +
+                    " " + lowTemp +" ~ " + highTemp + "\n" +
+                    " " + fengXiang + " " + fengLi + "\n";
         }
         return result;
     }
