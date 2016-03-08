@@ -18,7 +18,7 @@ public class WeatherDatabaseUtil {
 
     public void insert(WeatherBean weatherBean) {
         WeatherDatabase weatherDatabase = new WeatherDatabase(mContext);
-        SQLiteDatabase db = weatherDatabase.getWritableDatabase();
+        SQLiteDatabase  db= weatherDatabase.getWritableDatabase();
         db.execSQL(weatherBean.getInsertSql());
         db.close();
     }
@@ -26,7 +26,7 @@ public class WeatherDatabaseUtil {
     public Cursor queryAll(){
         WeatherDatabase weatherDatabase = new WeatherDatabase(mContext);
         SQLiteDatabase db = weatherDatabase.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select * from "+ WeatherDatabase.TABLE_NAME_WEATHER,null);
+        Cursor cursor = db.rawQuery("select * from " + WeatherDatabase.TABLE_NAME_WEATHER, null);
         db.close();
         return cursor;
     }
