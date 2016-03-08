@@ -20,11 +20,14 @@ public class WeatherDatabaseUtil {
         WeatherDatabase weatherDatabase = new WeatherDatabase(mContext);
         SQLiteDatabase db = weatherDatabase.getWritableDatabase();
         db.execSQL(weatherBean.getInsertSql());
+        db.close();
     }
 
     public Cursor queryAll(){
         WeatherDatabase weatherDatabase = new WeatherDatabase(mContext);
         SQLiteDatabase db = weatherDatabase.getReadableDatabase();
-        return db.rawQuery("select * from "+ WeatherDatabase.TABLE_NAME_WEATHER,null);
+        Cursor cursor = db.rawQuery("select * from "+ WeatherDatabase.TABLE_NAME_WEATHER,null);
+        db.close();
+        return cursor;
     }
 }
